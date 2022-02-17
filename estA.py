@@ -1,5 +1,5 @@
 import numpy as np
-import cv2
+from cv2 import cv2
 
 import scipy.io as sio
 import numpy as np
@@ -30,7 +30,7 @@ def estA(img, Jdark):
     Amag = np.zeros((1, n_bright, 1), dtype=np.float32)
     
     # Compute magnitudes of RGB vectors of A
-    for i in xrange(n_bright):
+    for i in list(range(n_bright)):
         x = Loc[0,h*w-1-i]
         ix[x/w, x%w, 0] = 0
         ix[x/w, x%w, 1] = 0
@@ -63,4 +63,4 @@ if __name__ == "__main__":
     I = data["I"]
     dR = data["dR"]
     a = estA(I,dR)
-    print a
+    print(a)

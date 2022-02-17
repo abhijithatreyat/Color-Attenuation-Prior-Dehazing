@@ -22,7 +22,7 @@ def calDepthMap(I, r):
 
     output =  0.121779 + 0.959710 * v - 0.780245 * s + sigmaMat
     outputPixel = output
-    output = scipy.ndimage.filters.minimum_filter(output,(r,r))
+    output = scipy.ndimage.minimum_filter(output,(r,r))
     outputRegion = output
     cv2.imwrite("data/vsFeature.jpg", outputRegion*255 )
     #cv2.imshow("outputRegion",outputRegion)
@@ -55,11 +55,11 @@ def estA(img, Jdark):
     Amag = np.zeros((1, n_bright, 1), dtype=np.float32)
     
     # Compute magnitudes of RGB vectors of A
-    for i in xrange(n_bright):
+    for i in list(range(n_bright)):
         x = Loc[0,h*w-1-i]
-        ix[x/w, x%w, 0] = 0
-        ix[x/w, x%w, 1] = 0
-        ix[x/w, x%w, 2] = 1
+        ix[int(x/w), int(x%w), 0] = 0
+        ix[int(x/w), int(x%w), 1] = 0
+        ix[int(x/w), int(x%w), 2] = 1
         
         Acand[0, i, :] = Ics[0, Loc[0, h*w-1-i], :]
         Amag[0, i] = np.linalg.norm(Acand[0,i,:])
@@ -75,7 +75,7 @@ def estA(img, Jdark):
         A = Acand[0, Loc2[0,n_bright-len(Y2):n_bright],:]
     
     # finds the max of the 20 brightest pixels in original image
-    print A
+    print(A)
 
     #cv2.imshow("brightest",ix)
     #cv2.waitKey()
